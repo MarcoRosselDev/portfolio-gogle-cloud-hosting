@@ -1,11 +1,14 @@
-FROM node:16-alpine 
-WORKDIR /app
+FROM node:16.15.1 as build
+WORKDIR /lit-clothing
+
+COPY package*.json .
+RUN npm install
 COPY . .
-RUN npm ci 
+
 RUN npm run build
-ENV NODE_ENV production
-EXPOSE 3000
-CMD [ "npx", "serve", "build" ]
+FROM nginx:1.19
+COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
+COPY --from=build /lit-clothing/build /usr/share/nginx/html
 
 # ADD . /app
 
