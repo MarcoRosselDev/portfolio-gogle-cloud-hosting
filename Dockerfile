@@ -1,5 +1,5 @@
 FROM node:16.15.1 as build
-WORKDIR /portfolio-on-gcloud
+WORKDIR /react-github
 
 COPY package*.json .
 RUN npm install
